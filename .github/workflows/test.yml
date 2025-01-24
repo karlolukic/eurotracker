@@ -1,0 +1,24 @@
+name: Test Push Access
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  test-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Test push
+      run: |
+        echo "Testing push access"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        touch test_file.txt
+        git add test_file.txt
+        git commit -m "Test commit from GitHub Actions"
+        git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/karlolukic/eurotracker.git HEAD:main
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
