@@ -27,14 +27,14 @@ jobs:
 
     - name: Run update script
       run: |
-        Rscript update_data.R
+        Rscript update_data.R || { echo "R script failed"; exit 1; }
 
     - name: Commit and push changes
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "Daily data update"
+        git add data/
+        git diff-index --quiet HEAD || git commit -m "Daily data update: $(date -u)"
         git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/karlolukic/eurotracker.git HEAD:main
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
