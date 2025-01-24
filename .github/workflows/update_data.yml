@@ -30,11 +30,11 @@ jobs:
         Rscript update_data.R
 
     - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Daily data update"
+        git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/karlolukic/eurotracker.git HEAD:main
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        git config --global user.name "karlolukic"
-        git config --global user.email "karlo.lukic@protonmail.com"
-        git add data/
-        git commit -m "Daily data update"
-        git push https://x-access-token:${GH_TOKEN}@github.com/karlolukic/eurotracker.git HEAD:main
