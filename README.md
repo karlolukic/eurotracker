@@ -52,7 +52,7 @@ This repository includes the full source code, daily data update workflows, and 
 
 ## **Attribution**
 
-This project was inspired by the official ECB Data Portal. The data is sourced from publicly available ECB resources via the `ecb` package.
+This project was inspired by the [official ECB Data Portal](https://data.ecb.europa.eu). The data is sourced from publicly available ECB resources via the [`ecb`](https://cran.r-project.org/web/packages/ecb/index.html) package.
 
 Special thanks to Eric Persson for creating the [`ecb`](https://cran.r-project.org/web/packages/ecb/index.html) package, which facilitates access to ECB statistical data in R.
 
