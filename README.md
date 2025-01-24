@@ -8,7 +8,7 @@
 
 ## **Project Description**
 
-EuroTrackeR is an interactive dashboard built with R and Shiny that replicates key features of the official European Central Bank (ECB) Data Portal. The project leverages the `ecb` package by Eric Persson for seamless retrieval of ECB data, enabling users to explore and visualize Euro Area economic indicators in an accessible and engaging way.
+[EuroTrackeR](https://karlo-lukic.shinyapps.io/eurotracker/) is an interactive dashboard built with R and Shiny that replicates key features of the [official European Central Bank (ECB) Data Portal](https://data.ecb.europa.eu). The project leverages the [`ecb`](https://cran.r-project.org/web/packages/ecb/index.html) package by Eric Persson for seamless retrieval of ECB data, enabling users to explore and visualize Euro Area economic indicators in an accessible and engaging way.
 
 This repository includes the full source code, daily data update workflows, and all necessary files to reproduce and deploy the dashboard.
 
@@ -45,7 +45,7 @@ This repository includes the full source code, daily data update workflows, and 
 ## **Key Features**
 
 -   **Data Automation**: Daily updates ensure the dashboard always reflects the latest economic trends.
--   **Open Source**: The project demonstrates the use of R, Shiny, and the `ecb` package for real-world applications.
+-   **Open Source**: The project demonstrates the use of R, Shiny, and the [`ecb`](https://cran.r-project.org/web/packages/ecb/index.html) package for real-world applications.
 -   **Interactive Visualizations**: Explore time series data with customizable filters and sleek, responsive UI components.
 
 ------------------------------------------------------------------------
@@ -54,7 +54,7 @@ This repository includes the full source code, daily data update workflows, and 
 
 This project was inspired by the official ECB Data Portal. The data is sourced from publicly available ECB resources via the `ecb` package.
 
-Special thanks to [Eric Persson](https://cran.r-project.org/web/packages/ecb/index.html) for creating the `ecb` package, which facilitates access to ECB statistical data in R.
+Special thanks to Eric Persson for creating the [`ecb`](https://cran.r-project.org/web/packages/ecb/index.html) package, which facilitates access to ECB statistical data in R.
 
 **Disclaimer**: This project is not endorsed by the European Central Bank (ECB). All interpretations and visualizations are the responsibility of the author.
 
