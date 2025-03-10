@@ -390,7 +390,7 @@ ui <- navbarPage(
     fluidPage(
       titlePanel("About This Dashboard"),
       p(
-        "Welcome to the EuroTrackeR dashboard. My name is Karlo Lukic, and I created this dashboard
+        "Welcome to the EuroTrackeR dashboard. I created this dashboard
       to replicate the key features of the official ",
         a("ECB Data Portal", href = "https://data.ecb.europa.eu/#dashboard-tab-1"),
         " while showcasing interactive data visualizations using R/Shiny."
@@ -399,10 +399,6 @@ ui <- navbarPage(
         "This dashboard leverages the powerful capabilities of the ",
         a("ecb package", href = "https://cran.r-project.org/package=ecb"),
         " by Eric Persson, which facilitates seamless retrieval of ECB data in R."
-      ),
-      p(
-        "You can find my other projects on ",
-        a("GitHub", href = "https://github.com/karlolukic"), "."
       ),
       p(
         "If you have any suggestions on how to further improve this dashboard,
