@@ -23,7 +23,7 @@ jobs:
 
     - name: Install R packages
       run: |
-        Rscript -e 'install.packages(c("curl", "cli", "openssl", "data.table", "magrittr", "xts", "readr", "here"), repos="https://cloud.r-project.org")'
+        Rscript -e 'install.packages(c("curl", "cli", "openssl", "data.table", "magrittr", "xts", "readr", "here", "devtools"), repos="https://cloud.r-project.org")'
         Rscript -e 'devtools::install_github("expersso/ecb")'
 
     - name: Run update script
