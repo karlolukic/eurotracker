@@ -1,6 +1,6 @@
 # Packages ----------------
 library(data.table)
-library(ecb)
+library(ecb) # https://github.com/expersso/ecb
 library(magrittr)
 library(xts)
 library(readr)
