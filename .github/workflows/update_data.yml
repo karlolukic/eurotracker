@@ -19,23 +19,25 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+        sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev libgit2-dev
 
     - name: Install R packages
+      env:
+        GITHUB_PAT: ${{ secrets.GH_TOKEN }}
       run: |
-        Rscript -e 'install.packages(c("curl", "cli", "openssl", "data.table", "magrittr", "xts", "readr", "here", "devtools"), repos="https://cloud.r-project.org")'
-        Rscript -e 'devtools::install_github("expersso/ecb")'
+        Rscript -e 'install.packages(c("curl", "cli", "openssl", "data.table", "magrittr", "xts", "readr", "here", "remotes"), repos="https://cloud.r-project.org")'
+        Rscript -e 'remotes::install_github("expersso/ecb", auth_token = Sys.getenv("GITHUB_PAT"))'
 
     - name: Run update script
       run: |
         Rscript update_data.R || { echo "R script failed"; exit 1; }
 
     - name: Commit and push changes
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add data/
         git diff-index --quiet HEAD || git commit -m "Daily data update: $(date -u)"
         git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/karlolukic/eurotracker.git HEAD:main
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
