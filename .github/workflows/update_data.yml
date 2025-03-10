@@ -19,12 +19,12 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+        sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev libgit2-dev
 
     - name: Install R packages
       run: |
-        Rscript -e 'install.packages(c("curl", "cli", "openssl", "data.table", "magrittr", "xts", "readr", "here", "devtools"), repos="https://cloud.r-project.org")'
-        Rscript -e 'devtools::install_github("expersso/ecb")'
+        Rscript -e 'install.packages(c("curl", "cli", "openssl", "data.table", "magrittr", "xts", "readr", "here", "remotes"), repos="https://cloud.r-project.org")'
+        Rscript -e 'remotes::install_github("expersso/ecb")'
 
     - name: Run update script
       run: |
