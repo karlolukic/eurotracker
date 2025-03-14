@@ -419,6 +419,12 @@ ui <- navbarPage(
 
 # SERVER ----------
 server <- function(input, output, session) {
+  current_account_data[, obsvalue_billions := obsvalue / 1e3]
+  direct_investment_data[, obsvalue_billions := obsvalue / 1e3]
+  portfolio_investment_data[, obsvalue_billions := obsvalue / 1e3]
+  reserve_assets_data[, obsvalue_billions := obsvalue / 1e3]
+  total_assets_data[, obsvalue_billions := obsvalue / 1e3]
+
   # TAB 1 REACTIVES ----
 
   inflation_data_with_date <- inflation_data %>%
@@ -2188,7 +2194,6 @@ server <- function(input, output, session) {
 
 
   # Tab 3: Current Account Balance ----------
-  current_account_data[, obsvalue_billions := obsvalue / 1e3] # express in EUR (bil.)
   latest_cab_value <- current_account_data[.N, obsvalue_billions]
   previous_cab_value <- current_account_data[.N - 1, obsvalue_billions]
   latest_cab_date <- format(current_account_data[.N, obstime], "%B %Y")
@@ -2206,6 +2211,7 @@ server <- function(input, output, session) {
   })
 
   output$cab_plot <- renderPlotly({
+    req(current_account_data$obsvalue_billions)
     plot_ly(current_account_data[(.N - 11):.N, ],
       x = ~obstime, y = ~obsvalue_billions,
       type = "scatter", mode = "lines", line = list(color = "black")
@@ -2218,7 +2224,7 @@ server <- function(input, output, session) {
         )
       )
   })
-
+  
   observeEvent(input$show_cab_modal, {
     updateDateInput(session, "start_date_cab", value = min(current_account_data_with_date$obstime_date))
     updateDateInput(session, "end_date_cab", value = max(current_account_data_with_date$obstime_date))
@@ -2333,8 +2339,6 @@ server <- function(input, output, session) {
   })
 
   # Tab 3: Direct Investment Balance ----------
-  direct_investment_data[, obsvalue_billions := obsvalue / 1e3] # # Express in billions
-
   latest_di_value <- direct_investment_data[.N, obsvalue_billions]
   previous_di_value <- direct_investment_data[.N - 1, obsvalue_billions]
   latest_di_date <- format(direct_investment_data[.N, obstime], "%B %Y")
@@ -2352,6 +2356,7 @@ server <- function(input, output, session) {
   })
 
   output$direct_invest_plot <- renderPlotly({
+    req(direct_investment_data$obsvalue_billions)
     plot_ly(direct_investment_data[(.N - 11):.N, ],
       x = ~obstime, y = ~obsvalue_billions,
       type = "scatter", mode = "lines", line = list(color = "black")
@@ -2483,8 +2488,6 @@ server <- function(input, output, session) {
   })
 
   # Tab 3: Reserve Assets -------
-  reserve_assets_data[, obsvalue_billions := obsvalue / 1e3] # Convert if data is in millions to get billions:
-
   latest_reserve_value <- reserve_assets_data[.N, obsvalue_billions]
   previous_reserve_value <- reserve_assets_data[.N - 1, obsvalue_billions]
   latest_reserve_date <- format(reserve_assets_data[.N, obstime], "%B %Y")
@@ -2565,8 +2568,9 @@ server <- function(input, output, session) {
     table_visible_reserve_assets(!table_visible_reserve_assets())
   })
 
+  # Reserve Assets Dygraph
   output$reserve_assets_dygraph <- renderDygraph({
-    req(filtered_reserve_assets_data())
+    req(filtered_reserve_assets_data()$obsvalue_billions)
     reserve_dy_data <- xts(filtered_reserve_assets_data()$obsvalue_billions,
       order.by = filtered_reserve_assets_data()$obstime_date
     )
@@ -2623,8 +2627,6 @@ server <- function(input, output, session) {
 
 
   # Tab 3: Portfolio Investment Balance -------
-  portfolio_investment_data[, obsvalue_billions := obsvalue / 1e3] # Convert to billions if needed:
-
   latest_portfolio_value <- portfolio_investment_data[.N, obsvalue_billions]
   previous_portfolio_value <- portfolio_investment_data[.N - 1, obsvalue_billions]
   latest_portfolio_date <- format(portfolio_investment_data[.N, obstime], "%B %Y")
@@ -2706,7 +2708,7 @@ server <- function(input, output, session) {
   })
 
   output$portfolio_dygraph <- renderDygraph({
-    req(filtered_portfolio_data())
+    req(filtered_portfolio_data()$obsvalue_billions)
     portfolio_dy_data <- xts(filtered_portfolio_data()$obsvalue_billions,
       order.by = filtered_portfolio_data()$obstime_date
     )
@@ -3108,8 +3110,6 @@ server <- function(input, output, session) {
   })
 
   # Tab 4: Total Assets ------
-  total_assets_data[, obsvalue_billions := obsvalue / 1e3]
-
   latest_total_assets_value <- total_assets_data[.N, obsvalue_billions]
   previous_total_assets_value <- total_assets_data[.N - 1, obsvalue_billions]
   latest_total_assets_date <- format(total_assets_data[.N, obstime], "Q%q %Y")
@@ -3128,8 +3128,10 @@ server <- function(input, output, session) {
   })
 
   output$total_assets_plot <- renderPlotly({
+    req(total_assets_data$obsvalue_billions)
     plot_ly(total_assets_data[(.N - 7):.N, ],
-      x = ~ as.Date(obstime), y = ~obsvalue_billions, type = "scatter", mode = "lines", line = list(color = "black")
+      x = ~as.Date(obstime), y = ~obsvalue_billions,
+      type = "scatter", mode = "lines", line = list(color = "black")
     ) %>%
       layout(
         xaxis = list(
